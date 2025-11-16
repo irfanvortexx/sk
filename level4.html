@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Memories Gallery 💞</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Pacifico&family=Poppins:wght@400;500;600&display=swap');
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #fff0f5, #ffe3ec);
+            text-align: center;
+            padding: 20px;
+            overflow-x: hidden;
+            color: #333;
+        }
+        
+        h1 {
+            font-family: "Segoe Script", cursive;
+            font-size: clamp(30px, 6vw, 48px);
+            color: #ff2f92;
+            text-shadow: 0 0 15px #ff9bc8, 0 0 30px #ff61a8;
+            margin-bottom: 28px;
+            letter-spacing: 1.2px;
+            font-weight: 600;
+        }
+        
+        .gallery-controls {
+            margin-bottom: 28px;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #ff6fb5, #ff3ea6);
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 14px;
+            margin: 6px;
+            cursor: pointer;
+            font-size: 17px;
+            font-family: "Segoe Script", cursive;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(255, 61, 144, 0.35);
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: scale(1.07);
+            background: linear-gradient(135deg, #ff3ea6, #ff1a75);
+        }
+        /* Grid view */
+        
+        #galleryGrid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 18px;
+        }
+        
+        .item video {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            border-radius: 10px;
+            display: block;
+        }
+        
+        .item {
+            background: #fff;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(255, 70, 160, 0.25);
+            transition: transform .3s ease, box-shadow .3s ease;
+            position: relative;
+        }
+        
+        .item:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 8px 20px rgba(255, 70, 160, 0.4);
+        }
+        
+        .item img {
+            width: 100%;
+            aspect-ratio: 16 / 9;
+            object-fit: cover;
+            border-bottom: 2px solid #ffe3ec;
+            cursor: pointer;
+            transition: transform 0.4s ease;
+        }
+        
+        .item:hover img {
+            transform: scale(1.08);
+        }
+        
+        .caption {
+            padding: 10px;
+            font-size: 15px;
+            color: #ff3ea6;
+            font-weight: 500;
+            background: #fff;
+        }
+        /* Fullscreen modal */
+        
+        #imageModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            justify-content: center;
+            align-items: center;
+            z-index: 999;
+        }
+        
+        #imageModal img {
+            max-width: 90%;
+            max-height: 85%;
+            border-radius: 14px;
+            box-shadow: 0 0 25px rgba(255, 100, 170, 0.6);
+        }
+        
+        #imageModal span {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            font-size: 40px;
+            color: white;
+            cursor: pointer;
+        }
+        
+        @media(max-width:600px) {
+            h1 {
+                font-size: 36px;
+            }
+            button {
+                font-size: 15px;
+                padding: 10px 22px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Memories Gallery 💞</h1>
+
+    <div class="gallery-controls">
+        <!-- Back Button -->
+        <button onclick="window.location.href='level3.html'">Back</button>
+        <!-- Next Button (as originally provided) -->
+        <button onclick="window.location.href='level5.html'">Next</button>
+    </div>
+    <div id="galleryGrid">
+        <div class="item">
+            <video src="july 8.mp4" autoplay loop muted playsinline></video>
+            <div class="caption">JULY 8</div>
+        </div>
+        <div class="item">
+            <video src="july 28.mp4" autoplay loop muted playsinline></video>
+            <div class="caption">JULY 28</div>
+        </div>
+        <div class="item">
+            <video src="aug 8.mp4" autoplay loop muted playsinline></video>
+            <div class="caption">AUGUST 8</div>
+        </div>
+        <div class="item">
+            <video src="aug 27.mp4" autoplay loop muted playsinline></video>
+            <div class="caption">AUGUST 27</div>
+        </div>
+        <div class="item">
+            <video src="sep9.mp4" autoplay loop muted playsinline></video>
+            <div class="caption">SEPTEMBER 9</div>
+        </div>
+        <div class="item">
+            <video src="sep 9.mp4" autoplay loop muted playsinline></video>
+            <div class="caption">SEPTEMBER 9</div>
+        </div>
+        <div class="item">
+            <video src="sep 30.mp4" autoplay loop muted playsinline></video>
+            <div class="caption">SEPTEMBER 30</div>
+        </div>
+        <div class="item">
+            <video src="oct 1.mp4" autoplay loop muted playsinline></video>
+            <div class="caption">OCTOBER 1</div>
+        </div>
+        <div class="item">
+            <video src="oct 12.mp4" autoplay loop muted playsinline></video>
+            <div class="caption">OCTOBER 12</div>
+        </div>
+        <div class="item">
+            <video src="oct 31.mp4" autoplay loop muted playsinline></video>
+            <div class="caption">OCTOBER 31</div>
+        </div>
+
+    </div>
+
+
+    <!-- Fullscreen Modal -->
+    <div id="imageModal">
+        <span id="closeModal">&times;</span>
+        <img id="modalImg" src="">
+    </div>
+
+    <script>
+        const modal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImg');
+        const closeModal = document.getElementById('closeModal');
+
+        document.querySelectorAll('#galleryGrid img').forEach(img => {
+            img.addEventListener('click', () => {
+                modal.style.display = 'flex';
+                modalImg.src = img.src;
+            });
+        });
+        closeModal.onclick = () => modal.style.display = 'none';
+        modal.onclick = e => {
+            if (e.target === modal) modal.style.display = 'none';
+        };
+    </script>
+</body>
+
+</html>
+</body>
+
+</html>

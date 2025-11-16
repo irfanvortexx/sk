@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Polaroid Memories</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Open Sans', sans-serif;
+            background: radial-gradient(circle at top left, #fdf1f4, #f9e0e9, #ffeaf0);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            min-height: 100vh;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        h1 {
+            font-family: "Segoe Script", cursive;
+            color: #d14d7a;
+            font-size: 3rem;
+            margin-bottom: 12px;
+            animation: bounce 2s infinite;
+        }
+        
+        p {
+            color: #555;
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+        }
+        
+        @keyframes bounce {
+            0%,
+            100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        
+        .gallery {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 25px;
+            max-width: 1200px;
+        }
+        
+        .polaroid {
+            background: #fff;
+            border-radius: 4px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.18);
+            width: 200px;
+            height: 210px;
+            /* reduced from 240px */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 6px;
+            /* reduced padding */
+            transform: rotate(var(--r, 0deg));
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+        }
+        
+        .polaroid img {
+            width: 100%;
+            height: calc(100% - 35px);
+            /* increased image height area */
+            object-fit: cover;
+            border-radius: 3px;
+            border: 1px solid #eee;
+            /* thinner border */
+        }
+        
+        .caption {
+            font-family: "Segoe Script", cursive;
+            font-size: 13px;
+            /* reduced */
+            color: #c44574;
+            margin-top: 5px;
+            /* reduced */
+        }
+        
+        button {
+            margin-top: 2.5rem;
+            background: linear-gradient(135deg, #ff8db5, #ff4d9e);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-family: "Segoe Script", cursive;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        
+        button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.25);
+        }
+        /* Responsive */
+        
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 2.4rem;
+            }
+            .polaroid {
+                width: 150px;
+                height: 190px;
+            }
+            .caption {
+                font-size: 13px;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2rem;
+            }
+            .polaroid {
+                width: 130px;
+                height: 160px;
+            }
+            .caption {
+                font-size: 12px;
+            }
+        }
+        
+        .gallery-controls {
+            margin-bottom: 28px;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #ff6fb5, #ff3ea6);
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 14px;
+            margin: 6px;
+            cursor: pointer;
+            font-size: 17px;
+            font-family: "Segoe Script", cursive;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(255, 61, 144, 0.35);
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: scale(1.07);
+            background: linear-gradient(135deg, #ff3ea6, #ff1a75);
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Shahana Memories</h1>
+    <p>Captured moments childhood to now 💖</p>
+    <div class="gallery-controls">
+        <!-- Back Button -->
+        <button onclick="window.location.href='level1.html'">Back</button>
+        <!-- Next Button (as originally provided) -->
+        <button onclick="window.location.href='level3.html'">Next</button>
+    </div>
+    <div class="gallery">
+        <div class="polaroid" style="--r:-4deg;">
+            <img src="1.jpg" alt="">
+            <div class="caption"></div>
+        </div>
+
+        <div class="polaroid" style="--r:3deg;">
+            <img src="2.jpg" alt="">
+            <div class="caption"></div>
+        </div>
+
+        <div class="polaroid" style="--r:-2deg;">
+            <img src="3.jpg" alt="">
+            <div class="caption"></div>
+        </div>
+
+        <div class="polaroid" style="--r:2deg;">
+            <img src="4.jpg" alt="">
+            <div class="caption"></div>
+        </div>
+
+        <div class="polaroid" style="--r:-3deg;">
+            <img src="5.jpg" alt="">
+            <div class="caption"></div>
+        </div>
+
+        <div class="polaroid" style="--r:-2deg;">
+            <img src="6.jpg" alt="">
+            <div class="caption"></div>
+        </div>
+
+        <div class="polaroid" style="--r:2deg;">
+            <img src="7.jpg" alt="">
+            <div class="caption"></div>
+        </div>
+
+        <div class="polaroid" style="--r:-3deg;">
+            <img src="8.jpg" alt="">
+            <div class="caption"></div>
+        </div>
+
+        <div class="polaroid" style="--r:-2deg;">
+            <img src="9.jpg" alt="">
+            <div class="caption"></div>
+        </div>
+
+        <div class="polaroid" style="--r:2deg;">
+            <img src="10.jpg" alt="">
+            <div class="caption"></div>
+        </div>
+
+        <div class="polaroid" style="--r:2deg;">
+            <img src="11.jpg" alt="">
+            <div class="caption"></div>
+        </div>
+
+        <div class="polaroid" style="--r:2deg;">
+            <img src="12.jpg" alt="">
+            <div class="caption"></div>
+        </div>
+        <div class="polaroid" style="--r:2deg;">
+            <img src="13.jpg" alt="">
+            <div class="caption"></div>
+        </div>
+
+        <div class="polaroid" style="--r:2deg;">
+            <img src="14.jpg" alt="">
+            <div class="caption">
+            </div>
+        </div>
+        <div class="polaroid" style="--r:2deg;">
+            <img src="15.jpg" alt="">
+            <div class="caption"></div>
+        </div>
+        <div class="polaroid" style="--r:2deg;">
+            <img src="16.jpg" alt="">
+            <div class="caption"></div>
+        </div>
+        <div class="polaroid" style="--r:2deg;">
+            <img src="17.jpg" alt="">
+            <div class="caption"></div>
+        </div>
+        <div class="polaroid" style="--r:2deg;">
+            <img src="18.jpg" alt="">
+            <div class="caption"></div>
+        </div>
+    </div>
+
+</body>
+
+</html>
+</body>
+
+</html>

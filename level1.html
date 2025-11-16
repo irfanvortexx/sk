@@ -1,0 +1,390 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Favorite Song</title>
+    <style>
+        html,
+        body {
+            margin: 0;
+            height: 100%;
+            background: linear-gradient(135deg, #ffd6e8, #ffe6f2);
+            font-family: "Segoe Script", cursive;
+            color: #330033;
+            overflow: hidden;
+            text-align: center;
+        }
+        
+        .wrap {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        #c {
+            display: block;
+            transition: opacity 1s;
+        }
+        
+        #lyrics {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: clamp(14px, 4vw, 26px);
+            text-shadow: 0 0 20px #ff99cc, 0 0 40px #ff4fa3, 0 0 60px #d63b8c;
+            color: #ff1a75;
+            opacity: 0;
+            transition: opacity .8s;
+            width: 75%;
+            max-width: 480px;
+            pointer-events: none;
+        }
+        
+        #endButtons {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            display: none;
+            flex-direction: row;
+            gap: 20px;
+        }
+        
+        .endBtn {
+            padding: 14px 30px;
+            font-size: 18px;
+            border: none;
+            border-radius: 10px;
+            background: linear-gradient(135deg, #ff7ab5, #ff3ea6);
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 0 20px #ff7ab5;
+            transition: .3s;
+            font-family: "Segoe Script", cursive;
+        }
+        
+        .endBtn:hover {
+            transform: scale(1.05);
+        }
+        
+        #startBtn {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: clamp(10px, 3vw, 20px) clamp(25px, 6vw, 50px);
+            font-size: clamp(16px, 4vw, 26px);
+            border: none;
+            border-radius: 50px;
+            background: linear-gradient(135deg, #ff7ab5, #ff3ea6);
+            color: #fff;
+            cursor: pointer;
+            box-shadow: 0 0 30px #ff7ab5;
+            transition: .3s;
+            font-family: "Segoe Script", cursive;
+            animation: pulse 2s infinite;
+            z-index: 3;
+        }
+        
+        @keyframes pulse {
+            0%,
+            100% {
+                transform: translate(-50%, -50%) scale(1)
+            }
+            50% {
+                transform: translate(-50%, -50%) scale(1.05)
+            }
+        }
+        
+        @media (max-width:600px) {
+            #lyrics {
+                font-size: clamp(14px, 5vw, 22px);
+                width: 85%
+            }
+            .endBtn {
+                padding: 10px 22px;
+                font-size: 16px
+            }
+            #startBtn {
+                padding: 12px 30px
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <button id="startBtn">Start</button>
+
+    <div class="wrap" style="display:none;">
+        <canvas id="c"></canvas>
+        <div id="lyrics"></div>
+        <div id="endButtons">
+            <button class="endBtn" id="restartBtn">Restart</button>
+            <button class="endBtn" id="nextBtn">Next</button>
+        </div>
+    </div>
+
+    <audio id="bgm" src="song.mp3" preload="auto"></audio>
+
+    <script>
+        // Elements
+        const startBtn = document.getElementById('startBtn');
+        const wrap = document.querySelector('.wrap');
+        const canvas = document.getElementById('c');
+        const lyricBox = document.getElementById('lyrics');
+        const endButtons = document.getElementById('endButtons');
+        const restartBtn = document.getElementById('restartBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const bgm = document.getElementById('bgm');
+
+        // Lyrics (timestamps in seconds)
+        const lyricsData = [{
+            time: 0,
+            text: "En veral irukkula un veral kedakkanum 🫴🏻"
+        }, {
+            time: 3.5,
+            text: "Nasungura alavukku irukki naa pudikkanum 🫂"
+        }, {
+            time: 7,
+            text: "Naan kanna thorakkaiyil un mugam theriyanum 🐒"
+        }, {
+            time: 10.5,
+            text: "Usrulla varaikkumae unakkenna pudikkanum 💕"
+        }, {
+            time: 14,
+            text: "Kadal alai pola unkaal thottu orasi 🌊"
+        }, {
+            time: 17.5,
+            text: "Kadal ulla poravan naan illa di ❤️‍🩹"
+        }, {
+            time: 21,
+            text: "Kadal manna pola un kaaloda otti 🌺"
+        }, {
+            time: 24.5,
+            text: "Kara thaandum vara naan irupenadi 🥹"
+        }, {
+            time: 28,
+            text: "Kannaana kanne nee kalangadhadi 🥹"
+        }, {
+            time: 31.5,
+            text: "En uyiroda aadharam needhanadi 🫵🏻"
+        }, {
+            time: 35,
+            text: "Kannaana kanne nee kalangadhadi 🥹"
+        }, {
+            time: 38,
+            text: "Yaar pona enna naan irupenadi 👫🏻"
+        }];
+
+
+        // Canvas / animation state
+        let ctx = null;
+        let DPR = Math.max(1, window.devicePixelRatio || 1);
+        let W = 0,
+            H = 0;
+        let particles = [];
+        let raf = null;
+        let tCounter = 0;
+
+        // --- Events
+        startBtn.addEventListener('click', async() => {
+            // reveal UI and start audio on user gesture (required for mobile)
+            startBtn.style.display = 'none';
+            wrap.style.display = 'flex';
+            try {
+                await bgm.play();
+            } catch (e) {
+                // some browsers require additional gesture; UI remains visible
+                alert('Tap again to allow audio if needed.');
+            }
+            initCanvas();
+            startLoop();
+        });
+
+        restartBtn.addEventListener('click', () => {
+            endButtons.style.display = 'none';
+            canvas.style.opacity = '1';
+            lyricBox.style.opacity = '0';
+            lyricBox.textContent = '';
+            bgm.currentTime = 0;
+            bgm.play().catch(() => {});
+            startLoop();
+        });
+
+        nextBtn.addEventListener('click', () => {
+            window.location.href = "level2.html";
+        });
+
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            regenerateParticles();
+        });
+
+        // resize handling
+        window.addEventListener('resize', () => {
+            resizeCanvas();
+            regenerateParticles();
+        });
+
+        // --- Canvas helpers
+        function resizeCanvas() {
+            DPR = Math.max(1, window.devicePixelRatio || 1);
+            const rectW = window.innerWidth;
+            const rectH = window.innerHeight;
+            canvas.width = Math.floor(rectW * DPR);
+            canvas.height = Math.floor(rectH * DPR);
+            canvas.style.width = rectW + 'px';
+            canvas.style.height = rectH + 'px';
+            W = canvas.width;
+            H = canvas.height;
+            if (ctx) ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
+        }
+
+        function heartPoint(t, s) {
+            const x = s * 16 * Math.pow(Math.sin(t), 3);
+            const y = -s * (13 * Math.cos(t) - 5 * Math.cos(2 * t) - 2 * Math.cos(3 * t) - Math.cos(4 * t));
+            return [x, y];
+        }
+
+        function generateHeartPositions(n, scale, ox, oy) {
+            const pts = [];
+            for (let i = 0; i < n; i++) {
+                const t = Math.random() * Math.PI * 2;
+                const r = 0.7 + Math.random() * 0.3;
+                const [x, y] = heartPoint(t, scale * r);
+                pts.push([ox + x, oy + y]);
+            }
+            return pts;
+        }
+
+        class Particle {
+            constructor(target) {
+                this.tx = target[0];
+                this.ty = target[1];
+                this.x = Math.random() * (W / DPR);
+                this.y = Math.random() * (H / DPR);
+                this.speed = 0.02 + Math.random() * 0.04;
+                this.size = 0.7 + Math.random() * 2.2;
+            }
+            update(pulse) {
+                const cx = (W / DPR) / 2,
+                    cy = (H / DPR) / 2;
+                const dx = this.tx - cx,
+                    dy = this.ty - cy;
+                const txp = cx + dx * pulse,
+                    typ = cy + dy * pulse;
+                this.x += (txp - this.x) * this.speed;
+                this.y += (typ - this.y) * this.speed;
+            }
+            draw(alpha) {
+                ctx.beginPath();
+                ctx.fillStyle = `rgba(255,120,190,${alpha/255})`;
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function regenerateParticles() {
+            const pCount = Math.max(300, Math.floor((window.innerWidth + window.innerHeight) / 4));
+            const scale = Math.min(window.innerWidth, window.innerHeight) / 45;
+            const heart = generateHeartPositions(pCount, scale, (W / DPR) / 2, (H / DPR) / 2);
+            particles = heart.map(pt => new Particle(pt));
+        }
+
+        function initCanvas() {
+            ctx = canvas.getContext('2d', {
+                alpha: true
+            });
+            resizeCanvas();
+            regenerateParticles();
+        }
+
+        // --- Animation loop
+        function startLoop() {
+            if (raf) cancelAnimationFrame(raf);
+            tCounter = 0;
+            canvas.style.opacity = '1';
+            loop(performance.now());
+        }
+
+        function loop(now) {
+            const dt = now - (loop.last || now);
+            loop.last = now;
+            tCounter += dt * 0.001;
+            // translucent background wash
+            ctx.clearRect(0, 0, W / DPR, H / DPR);
+            ctx.fillStyle = 'rgba(255,240,245,0.45)';
+            ctx.fillRect(0, 0, W / DPR, H / DPR);
+            const pulse = 1 + 0.06 * Math.sin(tCounter * 2.8);
+            for (let p of particles) {
+                p.update(pulse);
+                p.draw(255);
+            }
+            raf = requestAnimationFrame(loop);
+        }
+
+        // --- Lyrics sync
+        let lastLyric = '';
+        bgm.ontimeupdate = () => {
+            const t = bgm.currentTime;
+            let current = null;
+            for (let i = lyricsData.length - 1; i >= 0; i--) {
+                if (t >= lyricsData[i].time) {
+                    current = lyricsData[i].text;
+                    break;
+                }
+            }
+            if (current !== null) {
+                if (current !== lastLyric) {
+                    lastLyric = current;
+                    lyricBox.textContent = current;
+                    lyricBox.style.opacity = '1';
+                }
+            } else {
+                // before first lyric, hide
+                if (!lastLyric) {
+                    lyricBox.textContent = '';
+                    lyricBox.style.opacity = '0';
+                }
+            }
+        };
+
+        // --- End handling: fade out and show buttons after fade completes
+        bgm.onended = () => {
+            // stop anim loop
+            if (raf) cancelAnimationFrame(raf);
+            // fade canvas + lyrics smoothly, then show controls
+            let opacity = 1;
+            const fadeInterval = setInterval(() => {
+                opacity -= 0.08;
+                if (opacity <= 0) {
+                    opacity = 0;
+                    clearInterval(fadeInterval);
+                    canvas.style.opacity = '0';
+                    lyricBox.style.opacity = '0';
+                    endButtons.style.display = 'flex';
+                } else {
+                    canvas.style.opacity = String(opacity);
+                    lyricBox.style.opacity = String(opacity);
+                }
+            }, 80);
+        };
+
+        // defensive audio error
+        bgm.onerror = () => {
+            alert('Audio failed to load. Check song.mp3 path.');
+        };
+
+        // if the page loads and device pixel ratio changes later, keep canvas crisp
+        // done above via resize event
+    </script>
+</body>
+
+</html>

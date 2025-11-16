@@ -1,0 +1,258 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Happy Birthday — Responsive</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        
+        html,
+        body {
+            height: 100%;
+        }
+        
+        body {
+            font-family: "Segoe UI", "Segoe Script", "Open Sans", sans-serif;
+            background: linear-gradient(135deg, #ffdde1, #ee9ca7);
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            min-height: 100vh;
+            overflow-x: hidden;
+            text-align: center;
+            flex-direction: column;
+        }
+        
+        header {
+            width: 100%;
+            max-width: 960px;
+            text-align: center;
+            margin-bottom: 14px;
+        }
+        
+        h1 {
+            font-family: "Segoe Script", cursive;
+            font-size: clamp(1.4rem, 5vw, 2.4rem);
+            color: #fff;
+            text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+            margin-bottom: 6px;
+            animation: bounce 2400ms infinite;
+        }
+        
+        p.lead {
+            color: rgba(255, 255, 255, 0.95);
+            font-size: clamp(0.9rem, 3vw, 1.05rem);
+            margin-bottom: 12px;
+        }
+        
+        @keyframes bounce {
+            0%,
+            100% {
+                transform: translateY(0)
+            }
+            50% {
+                transform: translateY(-6px)
+            }
+        }
+        
+        .card {
+            width: 100%;
+            max-width: 960px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 14px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(6px);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 14px;
+        }
+        
+        .video-wrap {
+            width: 100%;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 14px 40px rgba(0, 0, 0, 0.35);
+        }
+        
+        video {
+            width: 100%;
+            height: auto;
+            display: block;
+            background: #000;
+            border-radius: 12px;
+        }
+        
+        .btn {
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+            color: #fff;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 999px;
+            cursor: pointer;
+            font-weight: 600;
+            width: 100%;
+            box-shadow: 0 6px 18px rgba(0, 0, 0, 0.18);
+            font-size: clamp(0.9rem, 3vw, 1rem);
+        }
+        
+        .meta {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            color: rgba(255, 255, 255, 0.95);
+            font-size: clamp(0.85rem, 3vw, 1rem);
+        }
+        
+        .balloon {
+            position: fixed;
+            width: 46px;
+            height: 60px;
+            border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+            pointer-events: none;
+            transform-origin: center bottom;
+            animation: floatUp linear infinite;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.18);
+            opacity: 0.9;
+        }
+        
+        .balloon::after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            bottom: -46px;
+            transform: translateX(-50%);
+            width: 2px;
+            height: 46px;
+            background: rgba(255, 255, 255, 0.7);
+            border-radius: 2px;
+        }
+        
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) rotate(0deg);
+                opacity: 1
+            }
+            100% {
+                transform: translateY(-420px) rotate(12deg);
+                opacity: 0
+            }
+        }
+        
+        @media (min-width:1000px) {
+            body {
+                justify-content: center;
+            }
+            .card {
+                flex-direction: row;
+                align-items: flex-start;
+                gap: 20px;
+            }
+            .video-wrap {
+                width: 65%;
+            }
+            .right-col {
+                width: 35%;
+                display: flex;
+                flex-direction: column;
+                gap: 12px;
+            }
+        }
+        
+        .gallery-controls {
+            margin-bottom: 28px;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #ff6fb5, #ff3ea6);
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 14px;
+            margin: 6px;
+            cursor: pointer;
+            font-size: 17px;
+            font-family: "Segoe Script", cursive;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(255, 61, 144, 0.35);
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: scale(1.07);
+            background: linear-gradient(135deg, #ff3ea6, #ff1a75);
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <h1>🎂 Happy Birthday, Shahana</h1>
+        <p class="lead">A little video wish just for you.</p>
+    </header>
+    <div class="gallery-controls">
+        <!-- Back Button -->
+        <button onclick="window.location.href='level4.html'">Back</button>
+        <!-- Next Button (as originally provided) -->
+        <button onclick="window.location.href='level6.html'">Next</button>
+    </div>
+    <main class="card">
+        <div class="video-wrap">
+            <video id="wishVideo" controls preload="metadata">
+    <source src="last.mp4" type="video/mp4">
+</video>
+
+        </div>
+
+        <div class="right-col">
+            <div class="meta">
+                <div><strong>From:</strong><br>You mine ❤️</div>
+                <div style="text-align:right"><strong>Date: 20/11/2025</strong><br>Today</div>
+            </div>
+            <p style="font-family:'Segoe Script',cursive;font-size:1.1rem;margin-top:8px">Make a Wish 🎈</p>
+            <p>We hope this day brings you joy and memories.</p>
+
+        </div>
+    </main>
+
+    <script>
+        const rightCol = document.querySelector('.right-col');
+        const balloonsRoot = document.getElementById('balloonsRoot');
+        const colors = [
+            'radial-gradient(circle at 25% 25%, #fff, #ff4b8b)',
+            'radial-gradient(circle at 25% 25%, #fff, #ffae00)',
+            'radial-gradient(circle at 25% 25%, #fff, #00c6ff)',
+            'radial-gradient(circle at 25% 25%, #fff, #92fe9d)',
+            'radial-gradient(circle at 25% 25%, #fff, #ff0080)'
+        ];
+
+        function spawnBalloons(count = 5) {
+            balloonsRoot.innerHTML = '';
+            const vw = window.innerWidth;
+            const total = vw < 480 ? 3 : count;
+            for (let i = 0; i < total; i++) {
+                const b = document.createElement('div');
+                b.className = 'balloon';
+                b.style.left = (10 + i * 18) + '%';
+                b.style.background = colors[i % colors.length];
+                b.style.animationDuration = (6 + Math.random() * 3) + 's';
+                b.style.animationDelay = (Math.random() * 2) + 's';
+                balloonsRoot.appendChild(b);
+            }
+        }
+
+        spawnBalloons();
+        window.addEventListener('resize', spawnBalloons);
+    </script>
+</body>
+
+</html>

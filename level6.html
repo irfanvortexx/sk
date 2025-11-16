@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> Special day Countdown</title>
+    <style>
+        body {
+            font-family: "Segoe Script", cursive;
+            background: linear-gradient(135deg, #ffd6e8, #ffe6f2);
+            color: #b0004d;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .countdown-section {
+            padding: 60px 20px;
+        }
+        
+        .section-title {
+            font-size: 30px;
+            color: #d63384;
+            margin-bottom: 20px;
+        }
+        
+        .countdown-display {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            flex-wrap: wrap;
+        }
+        
+        .time-unit {
+            background: #fff0f6;
+            padding: 20px 30px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(255, 105, 180, 0.3);
+        }
+        
+        .time-number {
+            font-size: 42px;
+            color: #c2185b;
+        }
+        
+        .time-label {
+            font-size: 16px;
+            color: #7a1b4b;
+        }
+        
+        .countdown-message {
+            margin-top: 25px;
+            font-size: 18px;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #ff6fb5, #ff3ea6);
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 14px;
+            margin: 6px;
+            cursor: pointer;
+            font-size: 17px;
+            font-family: "Segoe Script", cursive;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(255, 61, 144, 0.35);
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: scale(1.07);
+            background: linear-gradient(135deg, #ff3ea6, #ff1a75);
+        }
+        
+        .gallery-controls {
+            margin-bottom: 28px;
+        }
+        
+        button {
+            background: linear-gradient(135deg, #ff6fb5, #ff3ea6);
+            color: #fff;
+            border: none;
+            padding: 12px 28px;
+            border-radius: 14px;
+            margin: 6px;
+            cursor: pointer;
+            font-size: 17px;
+            font-family: "Segoe Script", cursive;
+            font-weight: 500;
+            box-shadow: 0 5px 15px rgba(255, 61, 144, 0.35);
+            transition: all 0.3s ease;
+        }
+        
+        button:hover {
+            transform: scale(1.07);
+            background: linear-gradient(135deg, #ff3ea6, #ff1a75);
+        }
+    </style>
+</head>
+
+<body>
+
+    <section id="countdown" class="countdown-section">
+        <div class="container">
+            <h2 class="section-title">⏰ Our special day countdown</h2>
+
+            <div class="gallery-controls">
+                <!-- Back Button -->
+                <button onclick="window.location.href='level5.html'">Back</button>
+            </div>
+
+            <div class="countdown-display" id="countdownDisplay">
+                <div class="time-unit">
+                    <span class="time-number" id="days">00</span>
+                    <span class="time-label">Days</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-number" id="hours">00</span>
+                    <span class="time-label">Hours</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-number" id="minutes">00</span>
+                    <span class="time-label">Minutes</span>
+                </div>
+                <div class="time-unit">
+                    <span class="time-number" id="seconds">00</span>
+                    <span class="time-label">Seconds</span>
+                </div>
+            </div>
+
+            <div class="countdown-message" id="countdownMessage">
+                <p>Countdown to 23 November 2032</p>
+            </div>
+    </section>
+
+    <script>
+        const daysEl = document.getElementById('days');
+        const hoursEl = document.getElementById('hours');
+        const minutesEl = document.getElementById('minutes');
+        const secondsEl = document.getElementById('seconds');
+        const msg = document.getElementById('countdownMessage');
+
+        const targetDate = new Date("2032-11-23T00:00:00").getTime();
+
+
+        function updateCountdown() {
+            const now = new Date().getTime();
+            const distance = targetDate - now;
+            if (distance <= 0) {
+                clearInterval(interval);
+                msg.innerHTML = "<p>🎉 Happy Birthday! 🎂💖</p>";
+                daysEl.textContent = hoursEl.textContent = minutesEl.textContent = secondsEl.textContent = "00";
+                return;
+            }
+
+            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            daysEl.textContent = days.toString().padStart(2, '0');
+            hoursEl.textContent = hours.toString().padStart(2, '0');
+            minutesEl.textContent = minutes.toString().padStart(2, '0');
+            secondsEl.textContent = seconds.toString().padStart(2, '0');
+        }
+        const interval = setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
+
+</body>
+
+</html>
